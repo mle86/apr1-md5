@@ -11,7 +11,7 @@ composer.json:
 ```json
 {
     "require": {
-        "whitehat101/apr1-md5": "~1.0"
+        "whitehat101/apr1-md5": "^1.0"
     }
 }
 ```
