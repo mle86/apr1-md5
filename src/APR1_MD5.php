@@ -7,6 +7,9 @@ class APR1_MD5 {
     const BASE64_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
     const APRMD5_ALPHABET = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
+    const PREFIX = '$apr1$';
+    const SALT_LENGTH = 8;
+
     // Source/References for core algorithm:
     // http://www.cryptologie.net/article/126/bruteforce-apr1-hashes/
     // http://svn.apache.org/viewvc/apr/apr-util/branches/1.3.x/crypto/apr_md5.c?view=co
@@ -22,9 +25,9 @@ class APR1_MD5 {
             throw new \InvalidArgumentException('$mdp must be string');
         if (is_null($salt))
             $salt = self::salt();
-        $salt = substr($salt, 0, 8);
+        $salt = substr($salt, 0, self::SALT_LENGTH);
         $max = strlen($mdp);
-        $context = $mdp.'$apr1$'.$salt;
+        $context = $mdp.self::PREFIX.$salt;
         $binary = pack('H32', md5($mdp.$salt.$mdp));
         for($i=$max; $i>0; $i-=16)
             $context .= substr($binary, 0, min(16, $i));
@@ -51,14 +54,14 @@ class APR1_MD5 {
             self::BASE64_ALPHABET,
             self::APRMD5_ALPHABET
         );
-        return '$apr1$'.$salt.'$'.$hash;
+        return self::PREFIX.$salt.'$'.$hash;
     }
 
     // 8 character salts are the best. Don't encourage anything but the best.
     public static function salt(): string {
         $alphabet = self::APRMD5_ALPHABET;
         $salt = '';
-        for($i=0; $i<8; $i++) {
+        for($i=0; $i<self::SALT_LENGTH; $i++) {
             $offset = random_int(0, 63);
             $salt .= $alphabet[$offset];
         }
@@ -66,8 +69,8 @@ class APR1_MD5 {
     }
 
     public static function check(string $plain, string $hash): bool {
-        $parts = explode('$', $hash);
-        return hash_equals($hash, self::hash($plain, $parts[2]));
+        $usedSalt = substr($hash, strlen(self::PREFIX), self::SALT_LENGTH);
+        return hash_equals($hash, self::hash($plain, $usedSalt));
     }
 
 }
