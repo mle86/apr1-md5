@@ -16,6 +16,15 @@ composer.json:
 }
 ```
 
+## Compatibility
+
+**Current:**
+Versions 2.x support PHP 7.0+.
+
+Versions [1.x](https://github.com/whitehat101/apr1-md5/tree/v1.x)
+support PHP 5.3 – 5.6.
+
+
 ## Use
 
 ```php
