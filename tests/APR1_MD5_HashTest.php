@@ -7,17 +7,17 @@ use WhiteHat101\Crypt\APR1_MD5;
 
 class APR1_MD5_HashTest extends TestCase {
 
-    public function knownHashResults() {
-        return array(
+    public function knownHashResults(): array {
+        return [
             // syntax: array(password, salt, expectedHashOutput)
-            array('WhiteHat101', 'HIcWIbgX', '$apr1$HIcWIbgX$G9YqNkCVGlFAN63bClpoT/'),
-            array('apache',      'rOioh4Wh', '$apr1$rOioh4Wh$bVD3DRwksETubcpEH90ww0'),
-            array('ChangeMe1',   'PVWlTz/5', '$apr1$PVWlTz/5$SNkIVyogockgH65nMLn.W1'),
+            ['WhiteHat101', 'HIcWIbgX', '$apr1$HIcWIbgX$G9YqNkCVGlFAN63bClpoT/'],
+            ['apache',      'rOioh4Wh', '$apr1$rOioh4Wh$bVD3DRwksETubcpEH90ww0'],
+            ['ChangeMe1',   'PVWlTz/5', '$apr1$PVWlTz/5$SNkIVyogockgH65nMLn.W1'],
 
             // Test some awkward inputs:
-            array('ChangeMe1', '',                   '$apr1$$DbHa0iITto8vNFPlkQsBX1'),  // blank salt
-            array('ChangeMe1', 'PVWlTz/50123456789', '$apr1$PVWlTz/5$SNkIVyogockgH65nMLn.W1'),  // long salt
-        );
+            ['ChangeMe1', '',                   '$apr1$$DbHa0iITto8vNFPlkQsBX1'],  // blank salt
+            ['ChangeMe1', 'PVWlTz/50123456789', '$apr1$PVWlTz/5$SNkIVyogockgH65nMLn.W1'],  // long salt
+        ];
     }
 
     /**

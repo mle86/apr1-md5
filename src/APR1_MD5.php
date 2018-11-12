@@ -14,7 +14,12 @@ class APR1_MD5 {
     // http://httpd.apache.org/docs/2.2/misc/password_encryptions.html
     // Wikipedia
 
-    public static function hash($mdp, $salt = null) {
+    public static function hash($mdp, string $salt = null): string {
+        if (is_null($mdp))
+            // legacy behavior
+            $mdp = '';
+        if (!is_string($mdp))
+            throw new \InvalidArgumentException('$mdp must be string');
         if (is_null($salt))
             $salt = self::salt();
         $salt = substr($salt, 0, 8);
@@ -50,19 +55,19 @@ class APR1_MD5 {
     }
 
     // 8 character salts are the best. Don't encourage anything but the best.
-    public static function salt() {
+    public static function salt(): string {
         $alphabet = self::APRMD5_ALPHABET;
         $salt = '';
         for($i=0; $i<8; $i++) {
-            $offset = hexdec(bin2hex(openssl_random_pseudo_bytes(1))) % 64;
+            $offset = random_int(0, 63);
             $salt .= $alphabet[$offset];
         }
         return $salt;
     }
 
-    public static function check($plain, $hash) {
+    public static function check(string $plain, string $hash): bool {
         $parts = explode('$', $hash);
-        return self::hash($plain, $parts[2]) === $hash;
+        return hash_equals($hash, self::hash($plain, $parts[2]));
     }
 
 }
