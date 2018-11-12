@@ -2,9 +2,10 @@
 
 namespace WhiteHat101\Crypt\Tests;
 
+use PHPUnit\Framework\TestCase;
 use WhiteHat101\Crypt\APR1_MD5;
 
-class APR1_MD5_HashTest extends PHPUnit_Framework_TestCase {
+class APR1_MD5_HashTest extends TestCase {
 
     public function knownHashResults() {
         return array(
