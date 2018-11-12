@@ -15,7 +15,7 @@ class APR1_MD5_SaltTest extends TestCase {
         $this->assertRegExp('/^.{8}$/', APR1_MD5::salt());
     }
 
-    public function testSaltRamdomness() {
+    public function testSaltRandomness() {
         $this->assertNotEquals(APR1_MD5::salt(), APR1_MD5::salt());
     }
 
