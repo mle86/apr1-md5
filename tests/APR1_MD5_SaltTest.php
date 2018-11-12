@@ -9,7 +9,7 @@ class APR1_MD5_SaltTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testSaltPattern() {
-        $this->assertRegExp('/.{8}/', APR1_MD5::salt());
+        $this->assertRegExp('/^.{8}$/', APR1_MD5::salt());
     }
 
     public function testSaltRamdomness() {
