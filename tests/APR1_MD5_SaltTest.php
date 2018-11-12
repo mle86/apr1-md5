@@ -1,5 +1,7 @@
 <?php
 
+namespace WhiteHat101\Crypt\Tests;
+
 use WhiteHat101\Crypt\APR1_MD5;
 
 class APR1_MD5_SaltTest extends PHPUnit_Framework_TestCase {
